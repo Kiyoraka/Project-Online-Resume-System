@@ -33,7 +33,6 @@ $educations = getEducations();
 
                 <div class="hero-buttons">
                     <a href="resume.php" class="hero-btn hero-btn-primary">View Resume</a>
-                    <a href="resume.php" class="hero-btn hero-btn-outline">Download PDF</a>
                 </div>
             </div>
         </div>
