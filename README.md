@@ -60,7 +60,7 @@ A modern, responsive web application for creating and managing professional onli
    - Admin Panel: `http://localhost/Online%20Resume%20System/admin/`
 
 ### Default Admin Credentials
-- **Username**: admin
+- **Email**: admin@gmail.com
 - **Password**: admin123
 
 ## Project Structure
