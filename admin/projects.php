@@ -69,8 +69,8 @@ $totalItems = count($allProjects);
 
 // Pagination settings
 $itemsPerPage = 5;
-$totalPages = ceil($totalItems / $itemsPerPage);
-$currentPage = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
+$totalPages = (int)ceil($totalItems / $itemsPerPage);
+$currentPage = (int)(isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1);
 $offset = ($currentPage - 1) * $itemsPerPage;
 $projects = array_slice($allProjects, $offset, $itemsPerPage);
 
