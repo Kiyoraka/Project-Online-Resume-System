@@ -262,8 +262,7 @@
 }
 
 .contact-grid {
-    display: flex;
-    flex-direction: column;
+    display: block;
     max-width: 800px;
     margin: var(--space-8) auto 0;
 }
