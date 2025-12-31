@@ -1,9 +1,9 @@
 <?php
 /**
  * Online Resume System - Admin Skills Management
- * CRUD with popup modal
+ * CRUD with popup modal and pagination (table layout)
  *
- * ULTRATHINK #256 - Modal Redesign
+ * ULTRATHINK #256 - Table Layout Redesign
  */
 
 require_once __DIR__ . '/../includes/config.php';
@@ -60,9 +60,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$skills = getSkills();
-$skillsByCategory = getSkillsByCategory();
-$totalItems = count($skills);
+// Get all skills
+$allSkills = getSkills();
+$totalItems = count($allSkills);
+
+// Pagination settings
+$itemsPerPage = 5;
+$totalPages = ceil($totalItems / $itemsPerPage);
+$currentPage = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
+$offset = ($currentPage - 1) * $itemsPerPage;
+$skills = array_slice($allSkills, $offset, $itemsPerPage);
 
 // Check if editing
 $editData = null;
@@ -84,44 +91,6 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
     <link rel="stylesheet" href="<?= CSS_URL ?>/base.css">
     <link rel="stylesheet" href="<?= CSS_URL ?>/dashboard.css">
     <style>
-        .skill-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-2) var(--space-3);
-            background: var(--gray-100);
-            border-radius: var(--rounded-full);
-            font-size: var(--text-sm);
-            margin: var(--space-1);
-        }
-        .skill-badge .level {
-            font-size: var(--text-xs);
-            color: var(--gray-500);
-        }
-        .skill-badge .skill-actions {
-            display: inline-flex;
-            gap: var(--space-1);
-            margin-left: var(--space-1);
-        }
-        .skill-badge .skill-actions button,
-        .skill-badge .skill-actions a {
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            display: inline-flex;
-        }
-        .category-group {
-            margin-bottom: var(--space-6);
-        }
-        .category-title {
-            font-size: var(--text-lg);
-            font-weight: var(--font-semibold);
-            color: var(--primary);
-            margin-bottom: var(--space-3);
-            padding-bottom: var(--space-2);
-            border-bottom: 2px solid var(--primary);
-        }
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -192,6 +161,53 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
             border-top: 1px solid var(--gray-200);
             background: var(--gray-50);
         }
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            margin-top: var(--space-6);
+        }
+        .pagination-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 var(--space-3);
+            border: 1px solid var(--gray-300);
+            background: white;
+            color: var(--gray-700);
+            font-size: var(--text-sm);
+            border-radius: var(--radius);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .pagination-btn:hover:not(.disabled):not(.active) {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+        }
+        .pagination-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .proficiency-badge {
+            display: inline-block;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--rounded-full);
+            font-size: var(--text-xs);
+            font-weight: 500;
+        }
+        .proficiency-badge.expert { background: #dcfce7; color: #166534; }
+        .proficiency-badge.advanced { background: #dbeafe; color: #1e40af; }
+        .proficiency-badge.intermediate { background: #fef3c7; color: #92400e; }
+        .proficiency-badge.beginner { background: #f3f4f6; color: #374151; }
     </style>
 </head>
 <body>
@@ -244,7 +260,7 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
                     </button>
                 </div>
 
-                <?php if (empty($skills)): ?>
+                <?php if (empty($allSkills)): ?>
                     <div class="card">
                         <div class="empty-state">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
@@ -255,29 +271,57 @@ $categories = ['Programming', 'Framework', 'Database', 'Frontend', 'Backend', 'T
                         </div>
                     </div>
                 <?php else: ?>
-                    <div class="card">
-                        <?php foreach ($skillsByCategory as $category => $categorySkills): ?>
-                            <div class="category-group">
-                                <div class="category-title"><?= e($category) ?></div>
-                                <div>
-                                    <?php foreach ($categorySkills as $skill): ?>
-                                        <span class="skill-badge">
-                                            <?= e($skill['skill_name']) ?>
-                                            <span class="level">(<?= e($skill['proficiency_level']) ?>)</span>
-                                            <span class="skill-actions">
-                                                <button type="button" onclick="editSkill(<?= htmlspecialchars(json_encode($skill), ENT_QUOTES, 'UTF-8') ?>)" style="color: var(--primary);" title="Edit">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                                </button>
-                                                <a href="?action=delete&id=<?= $skill['id'] ?>" style="color: var(--danger);" onclick="return confirm('Delete this skill?')" title="Delete">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                                </a>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Skill Name</th>
+                                    <th>Category</th>
+                                    <th>Proficiency</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($skills as $skill): ?>
+                                    <tr>
+                                        <td><strong><?= e($skill['skill_name']) ?></strong></td>
+                                        <td><?= e($skill['category'] ?: '-') ?></td>
+                                        <td>
+                                            <span class="proficiency-badge <?= strtolower($skill['proficiency_level']) ?>">
+                                                <?= e($skill['proficiency_level']) ?>
                                             </span>
-                                        </span>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                                        </td>
+                                        <td><?= e($skill['display_order']) ?></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="table-btn edit" title="Edit" onclick="editSkill(<?= htmlspecialchars(json_encode($skill), ENT_QUOTES, 'UTF-8') ?>)">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                                </button>
+                                                <a href="?action=delete&id=<?= $skill['id'] ?>" class="table-btn delete" title="Delete" onclick="return confirm('Delete this skill?')">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
+
+                    <?php if ($totalPages > 1): ?>
+                        <div class="pagination">
+                            <a href="?page=<?= $currentPage - 1 ?>" class="pagination-btn <?= $currentPage <= 1 ? 'disabled' : '' ?>">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </a>
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <a href="?page=<?= $i ?>" class="pagination-btn <?= $i === $currentPage ? 'active' : '' ?>"><?= $i ?></a>
+                            <?php endfor; ?>
+                            <a href="?page=<?= $currentPage + 1 ?>" class="pagination-btn <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </main>
