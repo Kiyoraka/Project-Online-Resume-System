@@ -234,13 +234,6 @@ $flash = getFlash();
                     <h1 class="page-title">Work Experience</h1>
                 </div>
                 <div class="topbar-right">
-                    <button class="btn btn-primary" onclick="openModal()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: var(--space-2);">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                        Add Experience
-                    </button>
                     <a href="logout.php" class="topbar-btn logout-btn">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -268,6 +261,13 @@ $flash = getFlash();
                 <!-- Experiences List -->
                 <div class="content-header">
                     <h3 class="content-title" style="font-size: var(--text-xl);">Your Experience (<?= $totalItems ?>)</h3>
+                    <button class="btn btn-primary" onclick="openModal()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: var(--space-2);">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Add Experience
+                    </button>
                 </div>
 
                 <?php if (empty($allExperiences)): ?>
