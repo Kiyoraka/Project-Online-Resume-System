@@ -1,0 +1,5 @@
+# List of ignore folder and files
+/[Tt]emp/
+# List of ignore files
+*.exe
+*.txt
