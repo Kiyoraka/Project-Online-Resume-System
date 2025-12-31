@@ -21,9 +21,9 @@ $educations = getEducations();
         <div class="container">
             <div class="hero-content">
                 <?php if ($profile && $profile['profile_image']): ?>
-                    <img src="<?= IMAGES_URL ?>/<?= e($profile['profile_image']) ?>" alt="<?= e($profile['full_name']) ?>" class="hero-image">
+                    <img src="<?= IMAGES_URL ?>/<?= e($profile['profile_image']) ?>" alt="<?= e($profile['full_name']) ?>" class="hero-image" onclick="openLoginModal()" style="cursor: pointer;" title="Admin Login">
                 <?php else: ?>
-                    <div class="hero-image-placeholder">
+                    <div class="hero-image-placeholder" onclick="openLoginModal()" style="cursor: pointer;" title="Admin Login">
                         <?= $profile ? strtoupper(substr($profile['full_name'], 0, 1)) : 'R' ?>
                     </div>
                 <?php endif; ?>
@@ -164,5 +164,173 @@ $educations = getEducations();
             </div>
         </div>
     </section>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal" onclick="closeLoginModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+            <div class="modal-header">
+                <div class="modal-logo">R</div>
+                <h2 class="modal-title">Admin Login</h2>
+                <p class="modal-subtitle">Sign in to manage your resume</p>
+            </div>
+            <div id="loginError" class="alert alert-danger" style="display: none;"></div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <input type="hidden" name="csrf_token" value="<?= e(generateCSRFToken()) ?>">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-input" placeholder="admin@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-input" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" id="loginBtn">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--rounded-xl);
+            padding: var(--space-8);
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: var(--shadow-xl);
+            animation: modalSlideIn 0.3s ease;
+        }
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .modal-close {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            background: none;
+            border: none;
+            font-size: var(--text-2xl);
+            color: var(--gray-400);
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+        }
+        .modal-close:hover {
+            color: var(--gray-600);
+        }
+        .modal-header {
+            text-align: center;
+            margin-bottom: var(--space-6);
+        }
+        .modal-logo {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: var(--rounded-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            margin: 0 auto var(--space-4);
+        }
+        .modal-title {
+            font-size: var(--text-xl);
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+        .modal-subtitle {
+            color: var(--gray-500);
+            font-size: var(--text-sm);
+            margin: 0;
+        }
+        .modal-content .form-group {
+            margin-bottom: var(--space-4);
+        }
+        .modal-content .btn {
+            margin-top: var(--space-2);
+        }
+    </style>
+
+    <script>
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLoginModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('loginModal').classList.remove('active');
+            document.body.style.overflow = '';
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('loginForm').reset();
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLoginModal();
+        });
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const form = event.target;
+            const btn = document.getElementById('loginBtn');
+            const errorDiv = document.getElementById('loginError');
+
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
+            errorDiv.style.display = 'none';
+
+            const formData = new FormData(form);
+
+            fetch('admin/ajax-login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = 'admin/index.php';
+                } else {
+                    errorDiv.textContent = data.message || 'Invalid credentials';
+                    errorDiv.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Sign In';
+                }
+            })
+            .catch(error => {
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+            });
+        }
+    </script>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>
