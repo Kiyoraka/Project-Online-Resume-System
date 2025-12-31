@@ -1,0 +1,196 @@
+/**
+ * Online Resume System - Print Styles
+ * Optimized for PDF export via browser print
+ *
+ * ULTRATHINK #255 - New Year's Eve Build
+ * ATS-compliant: Clean text, no graphics, single column
+ */
+
+@media print {
+    /* =====================================================
+       Reset for Print
+       ===================================================== */
+    *,
+    *::before,
+    *::after {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* =====================================================
+       Page Setup
+       ===================================================== */
+    @page {
+        size: A4;
+        margin: 15mm 15mm 15mm 15mm;
+    }
+
+    html, body {
+        width: 210mm;
+        height: 297mm;
+        font-size: 11pt;
+        line-height: 1.4;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* =====================================================
+       Hide Non-Printable Elements
+       ===================================================== */
+    .navbar,
+    .footer,
+    .resume-actions,
+    .no-print,
+    button,
+    .btn,
+    nav,
+    header.topbar,
+    .sidebar {
+        display: none !important;
+    }
+
+    /* =====================================================
+       Resume Page Adjustments
+       ===================================================== */
+    .resume-page {
+        background: white !important;
+        padding: 0 !important;
+        min-height: auto !important;
+    }
+
+    .resume-container {
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .resume {
+        padding: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+
+    /* =====================================================
+       Typography for Print
+       ===================================================== */
+    .resume-name {
+        font-size: 18pt !important;
+        margin-bottom: 4pt !important;
+    }
+
+    .resume-title {
+        font-size: 11pt !important;
+        margin-bottom: 8pt !important;
+    }
+
+    .resume-contact {
+        font-size: 9pt !important;
+        gap: 8pt !important;
+    }
+
+    .resume-section-title {
+        font-size: 11pt !important;
+        margin-bottom: 6pt !important;
+        padding-bottom: 2pt !important;
+        border-bottom: 1pt solid #000 !important;
+    }
+
+    .resume-entry {
+        margin-bottom: 10pt !important;
+    }
+
+    .resume-entry-title {
+        font-size: 10pt !important;
+    }
+
+    .resume-entry-date {
+        font-size: 9pt !important;
+    }
+
+    .resume-entry-subtitle {
+        font-size: 9pt !important;
+        margin-bottom: 4pt !important;
+    }
+
+    .resume-entry-description,
+    .resume-skills-list,
+    .resume-cert-name,
+    .resume-cert-org,
+    .resume-project-name,
+    .resume-project-desc {
+        font-size: 9pt !important;
+        line-height: 1.3 !important;
+    }
+
+    .resume-entry-description ul {
+        padding-left: 12pt !important;
+    }
+
+    .resume-entry-description li {
+        margin-bottom: 2pt !important;
+    }
+
+    /* =====================================================
+       Section Spacing
+       ===================================================== */
+    .resume-header {
+        padding-bottom: 8pt !important;
+        margin-bottom: 10pt !important;
+        border-bottom: 1pt solid #000 !important;
+    }
+
+    .resume-section {
+        margin-bottom: 10pt !important;
+    }
+
+    /* =====================================================
+       Prevent Page Breaks
+       ===================================================== */
+    .resume-entry {
+        page-break-inside: avoid;
+    }
+
+    .resume-section {
+        page-break-inside: avoid;
+    }
+
+    h1, h2, h3, h4 {
+        page-break-after: avoid;
+    }
+
+    /* =====================================================
+       Links
+       ===================================================== */
+    a {
+        text-decoration: none !important;
+    }
+
+    a[href]::after {
+        content: none !important;
+    }
+
+    /* =====================================================
+       Skills Grid to Single Column
+       ===================================================== */
+    .resume-skills {
+        display: block !important;
+    }
+
+    .resume-skill-category {
+        margin-bottom: 4pt !important;
+    }
+
+    /* =====================================================
+       Ensure Content Visibility
+       ===================================================== */
+    .resume-contact-item svg,
+    .contact-icon,
+    svg {
+        display: none !important;
+    }
+}

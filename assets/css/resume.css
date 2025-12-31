@@ -1,0 +1,277 @@
+/**
+ * Online Resume System - Resume Page Styles
+ * Clean ATS-friendly resume layout
+ *
+ * ULTRATHINK #255 - New Year's Eve Build
+ * Design: Clean text-only format for maximum ATS compatibility
+ */
+
+/* =====================================================
+   Resume Page Layout
+   ===================================================== */
+.resume-page {
+    background: var(--gray-100);
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+.resume-container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: var(--space-6);
+}
+
+.resume-actions {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+}
+
+/* =====================================================
+   Resume Document
+   ===================================================== */
+.resume {
+    background: var(--white);
+    padding: var(--space-10);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--rounded-lg);
+}
+
+/* =====================================================
+   Resume Header
+   ===================================================== */
+.resume-header {
+    text-align: center;
+    padding-bottom: var(--space-6);
+    border-bottom: 2px solid var(--gray-900);
+    margin-bottom: var(--space-6);
+}
+
+.resume-name {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--gray-900);
+    margin-bottom: var(--space-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.resume-title {
+    font-size: var(--text-lg);
+    color: var(--gray-600);
+    margin-bottom: var(--space-4);
+}
+
+.resume-contact {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+}
+
+.resume-contact-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.resume-contact a {
+    color: var(--gray-700);
+    text-decoration: none;
+}
+
+.resume-contact a:hover {
+    color: var(--primary);
+}
+
+/* =====================================================
+   Resume Sections
+   ===================================================== */
+.resume-section {
+    margin-bottom: var(--space-6);
+}
+
+.resume-section-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--gray-900);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--gray-900);
+    margin-bottom: var(--space-4);
+}
+
+/* =====================================================
+   Resume Entry (Experience, Education, etc.)
+   ===================================================== */
+.resume-entry {
+    margin-bottom: var(--space-5);
+}
+
+.resume-entry:last-child {
+    margin-bottom: 0;
+}
+
+.resume-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+}
+
+.resume-entry-title {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--gray-900);
+}
+
+.resume-entry-date {
+    font-size: var(--text-sm);
+    color: var(--gray-600);
+    white-space: nowrap;
+}
+
+.resume-entry-subtitle {
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+    margin-bottom: var(--space-2);
+}
+
+.resume-entry-description {
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+    line-height: var(--leading-relaxed);
+}
+
+.resume-entry-description ul {
+    margin: 0;
+    padding-left: var(--space-5);
+}
+
+.resume-entry-description li {
+    list-style-type: disc;
+    margin-bottom: var(--space-1);
+}
+
+/* =====================================================
+   Skills Grid
+   ===================================================== */
+.resume-skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-3);
+}
+
+.resume-skill-category {
+    margin-bottom: var(--space-3);
+}
+
+.resume-skill-category-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--gray-800);
+    margin-bottom: var(--space-1);
+}
+
+.resume-skill-list {
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+}
+
+/* Simple bullet list for ATS */
+.resume-skills-list {
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+    line-height: var(--leading-relaxed);
+}
+
+/* =====================================================
+   Certifications List
+   ===================================================== */
+.resume-cert {
+    margin-bottom: var(--space-2);
+}
+
+.resume-cert-name {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--gray-900);
+}
+
+.resume-cert-org {
+    font-size: var(--text-sm);
+    color: var(--gray-600);
+}
+
+/* =====================================================
+   Projects List
+   ===================================================== */
+.resume-project {
+    margin-bottom: var(--space-3);
+}
+
+.resume-project-name {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--gray-900);
+}
+
+.resume-project-tech {
+    font-size: var(--text-xs);
+    color: var(--gray-500);
+    margin-bottom: var(--space-1);
+}
+
+.resume-project-desc {
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+}
+
+/* =====================================================
+   Mobile Responsive
+   ===================================================== */
+@media (max-width: 768px) {
+    .resume-page {
+        padding-top: 70px;
+    }
+
+    .resume-container {
+        padding: var(--space-3);
+    }
+
+    .resume {
+        padding: var(--space-6);
+    }
+
+    .resume-name {
+        font-size: var(--text-2xl);
+    }
+
+    .resume-title {
+        font-size: var(--text-base);
+    }
+
+    .resume-contact {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .resume-entry-header {
+        flex-direction: column;
+    }
+
+    .resume-skills {
+        grid-template-columns: 1fr;
+    }
+
+    .resume-actions {
+        justify-content: center;
+    }
+}
