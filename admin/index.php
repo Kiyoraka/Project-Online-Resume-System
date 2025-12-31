@@ -147,54 +147,6 @@ $flash = getFlash();
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
-                <div class="content-header" style="margin-top: var(--space-8);">
-                    <h3 class="content-title" style="font-size: var(--text-xl);">Quick Actions</h3>
-                </div>
-
-                <div class="stats-grid">
-                    <a href="profile.php" class="card" style="text-decoration: none; display: block;">
-                        <h4 style="margin-bottom: var(--space-2); color: var(--gray-900);">Edit Profile</h4>
-                        <p style="color: var(--gray-500); font-size: var(--text-sm); margin: 0;">Update your personal information and summary</p>
-                    </a>
-                    <a href="experiences.php" class="card" style="text-decoration: none; display: block;">
-                        <h4 style="margin-bottom: var(--space-2); color: var(--gray-900);">Add Experience</h4>
-                        <p style="color: var(--gray-500); font-size: var(--text-sm); margin: 0;">Add new work experience to your resume</p>
-                    </a>
-                    <a href="skills.php" class="card" style="text-decoration: none; display: block;">
-                        <h4 style="margin-bottom: var(--space-2); color: var(--gray-900);">Manage Skills</h4>
-                        <p style="color: var(--gray-500); font-size: var(--text-sm); margin: 0;">Add or update your professional skills</p>
-                    </a>
-                    <a href="../resume.php" target="_blank" class="card" style="text-decoration: none; display: block;">
-                        <h4 style="margin-bottom: var(--space-2); color: var(--gray-900);">Preview Resume</h4>
-                        <p style="color: var(--gray-500); font-size: var(--text-sm); margin: 0;">View your resume and save as PDF</p>
-                    </a>
-                </div>
-
-                <!-- Profile Summary -->
-                <?php if ($profile): ?>
-                <div class="content-header" style="margin-top: var(--space-8);">
-                    <h3 class="content-title" style="font-size: var(--text-xl);">Profile Summary</h3>
-                    <a href="profile.php" class="btn btn-outline btn-sm">Edit Profile</a>
-                </div>
-
-                <div class="card">
-                    <div class="flex items-start gap-6" style="flex-wrap: wrap;">
-                        <div style="flex: 1; min-width: 250px;">
-                            <h4 style="margin-bottom: var(--space-1);"><?= e($profile['full_name']) ?></h4>
-                            <p style="color: var(--primary); margin-bottom: var(--space-2);"><?= e($profile['job_title'] ?? 'No job title set') ?></p>
-                            <p style="color: var(--gray-500); font-size: var(--text-sm); margin: 0;">
-                                <?= e($profile['location'] ?? 'No location set') ?>
-                            </p>
-                        </div>
-                        <div style="flex: 2; min-width: 300px;">
-                            <p style="color: var(--gray-700); line-height: var(--leading-relaxed); margin: 0;">
-                                <?= e($profile['summary'] ?? 'No professional summary added yet. Click "Edit Profile" to add one.') ?>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <?php endif; ?>
             </div>
         </main>
     </div>

@@ -92,25 +92,7 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
                 </svg>
                 Settings
             </a>
-            <a href="../resume.php" class="nav-link" target="_blank">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-                Preview Resume
-            </a>
         </div>
     </nav>
 
-    <div class="sidebar-footer">
-        <div class="sidebar-user">
-            <div class="sidebar-user-avatar">
-                <?= strtoupper(substr(getCurrentUserEmail() ?? 'A', 0, 1)) ?>
-            </div>
-            <div class="sidebar-user-info">
-                <div class="sidebar-user-name">Administrator</div>
-                <div class="sidebar-user-role"><?= e(getCurrentUserEmail() ?? 'admin@example.com') ?></div>
-            </div>
-        </div>
-    </div>
 </aside>
