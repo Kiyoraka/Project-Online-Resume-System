@@ -231,6 +231,17 @@
 .resume-project-desc {
     font-size: var(--text-sm);
     color: var(--gray-700);
+    line-height: var(--leading-relaxed);
+}
+
+.resume-project-desc ul {
+    margin: 0;
+    padding-left: var(--space-5);
+}
+
+.resume-project-desc li {
+    list-style-type: disc;
+    margin-bottom: var(--space-1);
 }
 
 /* =====================================================

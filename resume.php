@@ -198,7 +198,29 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
                                 <div class="resume-project-tech"><?= e($project['technologies_used']) ?></div>
                             <?php endif; ?>
                             <?php if ($project['description']): ?>
-                                <div class="resume-project-desc"><?= e($project['description']) ?></div>
+                                <div class="resume-project-desc">
+                                    <?php
+                                    $lines = explode("\n", $project['description']);
+                                    $hasBullets = false;
+                                    foreach ($lines as $line) {
+                                        $line = trim($line);
+                                        if (strpos($line, '- ') === 0 || strpos($line, '* ') === 0) {
+                                            if (!$hasBullets) {
+                                                echo '<ul>';
+                                                $hasBullets = true;
+                                            }
+                                            echo '<li>' . e(substr($line, 2)) . '</li>';
+                                        } else if (!empty($line)) {
+                                            if ($hasBullets) {
+                                                echo '</ul>';
+                                                $hasBullets = false;
+                                            }
+                                            echo '<p>' . e($line) . '</p>';
+                                        }
+                                    }
+                                    if ($hasBullets) echo '</ul>';
+                                    ?>
+                                </div>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>

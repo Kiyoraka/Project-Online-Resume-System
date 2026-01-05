@@ -405,6 +405,7 @@ $flash = getFlash();
                     <div class="form-group">
                         <label class="form-label">Description</label>
                         <textarea name="description" id="description" class="form-textarea" rows="4" placeholder="Describe the project, your role, and achievements..."></textarea>
+                        <small style="color: var(--gray-500);">Use bullet points with "- " or "* " for better formatting</small>
                     </div>
                 </div>
                 <div class="modal-footer">
