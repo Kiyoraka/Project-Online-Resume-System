@@ -1,7 +1,10 @@
 # List of ignore folder and files
 /[Tt]emp/
+.claude/
+
 # List of ignore files
 *.exe
 *.txt
+nul
 
 Project Resources
